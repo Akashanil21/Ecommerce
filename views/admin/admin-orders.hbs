@@ -1,0 +1,88 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Orders</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+      integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="//cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css"
+    />
+  </head>
+  <body>
+    <section class="mt-5">
+      <div class="container">
+        <table class="table mt-5 border table-hover" id="pdfTable">
+          <thead>
+            <tr>
+              <th scope="col" class="border-dark">No</th>
+              <th scope="col" class="border-dark">Date</th>
+              <th scope="col" class="border-dark">Address</th>
+              <th scope="col" class="border-dark">Pincode</th>
+              <th scope="col" class="border-dark">Mobile</th>
+              <th scope="col" class="border-dark">Amount</th>
+              <th scope="col" class="border-dark">Payment</th>
+              <th scope="col" class="border-dark">Status</th>
+              <th class="border-dark"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each orders}}
+              <tr>
+                <th class="border-dark" scope="row">{{addOne @index}}</th>
+                <td class="border-dark">{{this.date}}</td>
+                <td class="border-dark">{{this.deliveryDetails.address}}</td>
+                <td class="border-dark">{{this.deliveryDetails.pincode}}</td>
+                <td class="border-dark">{{this.deliveryDetails.mobile}}</td>
+                <td class="border-dark">{{this.totalAmount}}</td>
+                <td class="border-dark">{{this.paymentMethod}}</td>
+                {{#if this.field}}
+                  <td
+                    class="text-success font-weight-bold border-dark"
+                  >{{this.status}}</td>
+                {{else}}
+                  <td
+                    class="text-danger font-weight-bold border-dark"
+                  >{{this.status}}</td>
+                {{/if}}
+                <td class="border-dark">
+                  <a
+                    href="/admin/view-admin-orders/{{this._id}}"
+                    class="btn btn-dark"
+                  >View</a>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+        <a
+          href="/admin/change-order-status"
+          class="btn btn-success form-control mt-3"
+        >Change Order Status</a>
+      </div>
+    </section>
+    <script
+      src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"
+    ></script>
+    <script>
+      $(document).ready(function () { $("#pdfTable").DataTable({ dom: "Bfrtip",
+      buttons: ["copyHtml5", "excelHtml5", "csvHtml5", "pdfHtml5"], }); });
+    </script>
+  </body>
+</html>

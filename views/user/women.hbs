@@ -1,0 +1,61 @@
+
+<div class="breadcrumbs">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<p class="bread"><span>Women</span></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="breadcrumbs-two">
+			<div class="container">
+				<div class="row">
+					<div class="col">
+						<div class="breadcrumbs-img" style="background-image: url(images/cover-img-1.jpg);">
+							<h2>Women's</h2>
+						</div>
+            
+<div class="colorlib-product">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-8 offset-sm-2 text-center colorlib-heading colorlib-heading-sm">
+						<h2>WOMEN'S PRODUCTS</h2>
+					</div>
+                    
+				</div>
+				<div class="row row-pb-md">
+                    {{#each products}}
+					<div class="col-md-3 col-lg-3 mb-4 text-center">
+						<div class="product-entry border">
+							<a href="/product-view/?id={{this._id}}" class="prod-img">
+								<img src="/product-images/{{this._id}}.jpg" class="img-fluid" alt="Free html5 bootstrap 4 template">
+							</a>
+							<div class="desc">
+								<h2><a href="#">{{this.Name}}</a></h2>
+                                <span class="Category">{{this.Category}}</span>
+								<span class="price">Rs.{{this.Price}}</span>
+								<button onclick="addToWishlist('{{this._id}}')" class="btn btn-primary"><i class="icon-heart"></i></button>
+								<button onclick="addToCart('{{this._id}}')" class="btn btn-primary">Add to cart</button>
+							</div>
+						</div>
+					</div>
+					{{/each}}
+				</div> 
+				
+			</div>
+		</div>
+
+		<script>
+	function addToWishlist(productId){
+    console.log(productId)
+    $.ajax({
+        url:'/add-to-wishlist/'+productId,
+        method:'get',
+        success:(response)=>{
+               location.reload()
+        }
+    })
+}
+</script>

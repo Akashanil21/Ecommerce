@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales Report</title>
+  <link rel="stylesheet" href="//cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+</head>
+<body>
+  
+  <section>
+  <div class="container mt-5">
+    <table class="table table-hover border" id="pdfTable">
+      <thead>
+        <tr>
+          <th scope="col" class="border-dark">No</th>
+          <th scope="col" class="border-dark">Product Name</th>
+          <th scope="col" class="border-dark">Category</th>
+          <th scope="col" class="border-dark">Subcategory</th>
+          <th scope="col" class="border-dark">Price</th>
+          <th scope="col" class="border-dark">Image</th>
+          <th scope="col" class="border-dark">Stock</th>
+          <th scope="col" class="border-dark">Sales</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each products}}
+          <tr>
+            <th scope="row" class="border-dark">{{addOne @index}}</th>
+            <td class="border-dark">{{this.Name}}</td>
+            <td class="border-dark">{{this.Category}}</td>
+            <td class="border-dark">{{this.Subcategory}}</td>
+            <td class="border-dark">{{this.Price}}</td>
+            <td class="border-dark"><img style="width: 50px;height: 50px;" src="/product-images/{{this._id}}.jpg" alt="" /></td>
+            <td class="border-dark">{{this.Stock}}</td>
+            <td class="border-dark">{{this.Sales}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</section>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+   <script>
+      $(document).ready(function () { $("#pdfTable").DataTable({ dom: "Bfrtip",
+      buttons: ["copyHtml5", "excelHtml5", "csvHtml5", "pdfHtml5"], }); });
+    </script>
+</body>
+</html>

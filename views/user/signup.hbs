@@ -1,0 +1,100 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bootstrap demo</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+    ></script>
+  </head>
+  <body style="background-color:whitesmoke;">
+    <div class="row">
+      <div class="col-md-6 m-auto p-3">
+        <div class="container mt-5 pl-5">
+          <h2 class="text-center">Create New Account</h2>
+          {{#if userExist}}
+          <p class="text-center">{{userExist}}</p>
+          {{/if}}
+          <form action="/signup" method="post" id="formValidation">
+            <div class="form-group">
+              <label>Name</label>
+              <input
+                type="text"
+                class="form-control"
+                name="Name"
+                id="Name"
+                placeholder="Enter Name"
+                
+              />
+            </div>
+            <p>{{nameMsg}}</p>
+            <div class="form-group">
+              <label>Email address</label>
+              <input
+                type="email"
+                class="form-control"
+                name="Email"
+                placeholder="Enter email"
+                
+              />
+            </div>
+            <p>{{emailMsg}}</p>
+            <div class="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                class="form-control"
+                name="Password"
+                placeholder="Enter password"
+                
+              />
+            </div>
+            <p>{{passwordMsg}}</p>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input
+                type="text"
+                class="form-control"
+                name="Number"
+                placeholder="Enter Phone number"
+                
+              />
+            </div>
+            <div class="pt-3">
+              <button
+                type="submit"
+                class="btn btn-dark float-right"
+              >Signup</button>
+            </div>
+            <p class="text-center text-muted mt-5 mb-0">Have already an account?
+              <a href="/login" class="fw-bold text-body"><u>Login here</u></a></p>
+          </form>
+        </div>
+      </div>
+    </div>
+    {{!-- <script>
+      $("#formValidation").validate({ rules: { Name: { required: true,
+      minlength: 3, }, Email: { required: true, email: true, }, Password: {
+      required: true, minlength: 6, maxlength: 15, }, Number: { number: true,
+      minlength: 10, maxlength: 10, }, }, messages: { Name: { required: "Please
+      enter name", minlength: "Requires minimum of 3 characters", }, email: {
+      required: "Please enter the email", email: "Enter a valid email", },
+      Password: { required: "Please enter a password", minlength: "Required 6
+      digits", maxlength: "Cannot be more than 10 digits", }, Number: {
+      required: "Please enter the mobile number", minlength: "Required 10
+      digits", maxlength: "Cannot be more than 10 digits", }, }, submitHandler:
+      function (form) { form.submit(); }, });
+    </script> --}}
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

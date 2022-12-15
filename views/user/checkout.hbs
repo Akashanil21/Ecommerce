@@ -1,0 +1,217 @@
+<section>
+  <div class="container mt-5">
+
+    <div class="msg text-center mt-5">
+
+      <span class="msg__text font-weight-bold">
+
+        <a
+          class="gl-link font-weight-bold text-info"
+          href="#have-coupon"
+          data-toggle="collapse"
+        >Click Here to select an available coupon</a></span>
+      <div class="collapse" id="have-coupon" data-parent="#checkout-msg-group">
+        <div class="c-f u-s-m-b-16">
+
+          <form class="c-f__form" id="coupon-form" method="post" action="#">
+            <span
+              id="errMsg"
+              class="gl-text u-s-m-b-16 font-weight-bold text-danger"
+            >Available coupons</span>
+            <div class="u-s-m-b-16">
+              <div class="u-s-m-b-15">
+
+                <label for="coupon"></label>
+                  <select name="Coupon" id="coupon" class="">
+                    <option value=""></option>
+                      {{#each coupons}}
+                        <option value="{{this.Coupon}}">{{this.Coupon}}</option>
+                       {{/each}}
+                    </select>
+                {{!-- <input
+                  class="input-text input-text--primary-style text-center"
+                  type="text"
+                  id="coupon"
+                  name="Coupon"
+                  placeholder="Coupon Code"
+                /> --}}
+                <input
+                  type="text"
+                  name="userId"
+                  value="{{user._id}}"
+                  hidden
+                /></div>
+              <div class="u-s-m-b-15">
+
+                <button
+                  class="btn btn-primary mt-2"
+                  type="submit"
+                >APPLY</button></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <form action="" id="place-order">
+      <div class="row">
+        <div class="col-md-6">
+          <h2>Enter Delivery Address</h2><br />
+          <div>
+            <label for="">Address</label>
+            <input
+              class="form-control"
+              type="text"
+              id="address"
+              name="address"
+              required
+            />
+            <label for="">City</label>
+            <input class="form-control" type="text" id="city" name="city" required/>
+            <label for="">State</label>
+            <input class="form-control" type="text" id="state" name="state" required />
+            <label for="">Pincode</label>
+            <input
+              class="form-control"
+              type="text"
+              id="pincode"
+              name="pincode"
+              required
+            />
+            <label for="">Mobile</label>
+            <input class="form-control" type="text" id="mobile" name="mobile" />
+            <input
+              type="text"
+              name="userId"
+              id=""
+              value="{{user._id}}"
+              hidden
+            />
+          </div>
+        </div>
+        <div class="col-md-4 colorlib-product">
+          <div class="container mt-5 ml-5 checkout">
+            <div class="sub">
+              <p><span>Total:</span><span>
+                  Rs.
+                  <span id="total">{{total}}</span></span></p>
+              <p><span>Discount:</span>Rs.<span
+                  id="discount"
+                >{{discount}}</span></p>
+              <p><span>Subtotal</span>Rs.
+                <span id="discountTotal">{{total}}</span></p>
+            </div>
+
+            <hr />
+            <div class="payment">
+              <p>Payment Method</p>
+              <label class="radio-inline m-3">
+                <input type="radio" name="payment-method" value="COD" checked />
+                COD
+              </label>
+              <label class="radio-inline mt-2 m-3">
+                <input type="radio" name="payment-method" value="ONLINE" />
+                Online payment
+              </label>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-primary float-right mt-4" type="submit">Place
+          Order</button>
+      </div>
+
+    </form>
+  </div>
+</section>
+
+<script>
+			$("#place-order").submit((e)=>{
+				e.preventDefault()
+				$.ajax({
+					url:'/checkout',
+					method:'post',
+					data:$('#place-order').serialize(),
+					success:(response)=>{
+						if(response.codSuccess){
+							location.href='/order-success'
+						}else{
+							razorpayPayment(response)
+						}
+					}
+				})
+			})
+			function razorpayPayment(order){
+				var options = {
+    "key":"rzp_test_pprTT4u1RM2DhH" , // Enter the Key ID generated from the Dashboard
+    "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "Footwear",
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+	"handler": function (response){
+		verifyPayment(response,order)
+	},
+
+    "prefill": {
+        "name": "Akash anil",
+        "email": "Footware.com",
+        "contact": "8157962634"
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+  };
+  var rzp1 = new Razorpay(options);
+    rzp1.open();
+}
+
+  function verifyPayment(payment,order){
+	$.ajax({
+		url:'/verify-payment',
+		data:{
+			payment,
+			order
+		},
+		method:'post',
+		success:(response)=>{
+			if(response.status){
+				location.href='/order-success'
+			}else{
+				alert("payment failed")
+			}
+		}
+	})
+  }
+
+		</script>
+
+<script>
+    $('#coupon-form').submit((e)=>{
+        e.preventDefault()
+        $.ajax({
+            url:"/coupon-check",
+            method:"POST",
+            data:$('#coupon-form').serialize(),
+            success:(response) =>{
+      if(response.status){
+        document.getElementById('errMsg').innerHTML=response.errMsg
+      }else if(response.code){
+        document.getElementById('errMsg').innerHTML=response.errMsg
+      }else if(response.discountAdded){
+        document.getElementById('errMsg').innerHTML=response.errMsg
+        document.getElementById('discountTotal').innerHTML=response.discountAdded
+        document.getElementById('discount').innerHTML=response.discount
+        console.log(response.discountAdded);
+      }else if(response.value){
+        document.getElementById('errMsg').innerHTML=response.errMsg
+       
+      }
+    }
+
+        })
+    })
+</script>

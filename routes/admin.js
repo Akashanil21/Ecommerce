@@ -24,7 +24,9 @@ router.get('/admin-home',async function(req, res, next) {
   let orderDate = await productHelper.getOrderCount()
   let date = await productHelper.getOrderDate()
   let sales = await productHelper.getSalesCount()
-  res.render('admin/admin-home',{layout:false,totalAmount,totalSales,totalOrders,orderDate,date,sales})
+  let cod = await productHelper.getCodCount()
+  let online = await productHelper.getOnlineCount()
+  res.render('admin/admin-home',{layout:false,totalAmount,totalSales,totalOrders,orderDate,date,sales,cod,online})
 });
 
 router.get('/product-details',verifyAdminLogin,(req,res)=>{

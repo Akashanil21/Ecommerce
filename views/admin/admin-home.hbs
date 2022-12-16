@@ -154,7 +154,7 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="clearfix">
-                      <h4 class="card-title float-left">Visit And Sales Statistics</h4>
+                      <h4 class="card-title float-left">Order And Sales Statistics</h4>
                       <div id="visit-sale-chart-legend" class="rounded-legend legend-horizontal legend-top-right float-right"></div>
                     </div>
                     <canvas id="visit-sale-chart" class="mt-4"></canvas>
@@ -164,7 +164,7 @@
               <div class="col-md-5 grid-margin stretch-card">
                 <div class="card">
                   <div class="card-body">
-                    <h4 class="card-title">Traffic Sources</h4>
+                    <h4 class="card-title">Payment Status Chart</h4>
                     <canvas id="traffic-chart"></canvas>
                     <div id="traffic-chart-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div>
                   </div>
@@ -658,33 +658,29 @@
 
       var trafficChartData = {
         datasets: [{
-          data: [30, 30, 40],
+          data: [{{cod}},{{online}}],
           backgroundColor: [
             gradientStrokeBlue,
-            gradientStrokeGreen,
             gradientStrokeRed
           ],
           hoverBackgroundColor: [
             gradientStrokeBlue,
-            gradientStrokeGreen,
             gradientStrokeRed
           ],
           borderColor: [
             gradientStrokeBlue,
-            gradientStrokeGreen,
             gradientStrokeRed
           ],
           legendColor: [
             gradientLegendBlue,
-            gradientLegendGreen,
             gradientLegendRed
           ]
         }],
     
         // These labels appear in the legend and in the tooltips when hovering different arcs
         labels: [
-          'Search Engines',
-          'Direct Click',
+          'Cash on delivery',
+          'Online payment',
           'Bookmarks Click',
         ]
       };

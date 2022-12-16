@@ -410,6 +410,7 @@ module.exports ={
                     $project:{_id:1,count:0}
                 }
             ]).toArray()
+            console.log(orderDate)
             let count = [];
             let i;
             let n=orderDate.length
@@ -421,6 +422,7 @@ module.exports ={
                 obj[i]=count[i]
 
             }
+            console.log(obj)
             resolve(obj)
         })
     },
@@ -459,6 +461,42 @@ module.exports ={
           let products =await db.get().collection(collection.PRODUCT_COLLECTION)
             .find().toArray()
             resolve(products)
+        })
+    },
+
+    getCodCount:()=>{
+        return new Promise(async(resolve,reject)=>{
+            let totalCount = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    $match:{paymentMethod:"COD"}
+                },
+                {
+                    $group:{_id:'$COD',count:{$sum:1}}
+                },
+                {
+
+                    $project:{_id:0,count:1}
+                }
+            ]).toArray()
+            resolve(totalCount[0].count)
+        })
+    },
+    getOnlineCount:()=>{
+        return new Promise(async(resolve,reject)=>{
+            let totalCount = await db.get().collection(collection.ORDER_COLLECTION).aggregate([
+                {
+                    $match:{paymentMethod:"ONLINE"}
+                },
+                {
+                    $group:{_id:'$ONLINE',count:{$sum:1}}
+                },
+                {
+
+                    $project:{_id:0,count:1}
+                }
+            ]).toArray()
+            console.log(totalCount[0].count)
+            resolve(totalCount[0].count)
         })
     }
 }
